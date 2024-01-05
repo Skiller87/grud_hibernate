@@ -1,16 +1,16 @@
 package ru.gordeev.spring.controllers;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.gordeev.spring.dao.PersonDAO;
 
-import javax.print.DocFlavor;
-
 @Controller
 @RequestMapping("/test-batch-update")
 public class BachController {
+
     private final PersonDAO personDAO;
 
     @Autowired
@@ -23,7 +23,7 @@ public class BachController {
         return "batch/index";
     }
 
-    @GetMapping("/without")
+/*    @GetMapping("/without")
     public String withoutBach(){
         personDAO.testMultipleUpdate();
         return "redirect:/people";
@@ -32,5 +32,5 @@ public class BachController {
     public String withBach(){
         personDAO.testBachUpdate();
         return "redirect:/people";
-    }
+    }*/
 }

@@ -1,9 +1,13 @@
 package ru.gordeev.spring.config;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
+
+
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
 
 public class MySpringAppDispatcherServletInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -23,10 +27,11 @@ public class MySpringAppDispatcherServletInitializer extends AbstractAnnotationC
     }
 
     @Override
-    public void onStartup(ServletContext aServletContext) throws ServletException {
-        super.onStartup(aServletContext);
-        registerHiddenFieldFilter(aServletContext);
+    public void onStartup(ServletContext aservletContext) throws ServletException {
+        super.onStartup(aservletContext);
+        registerHiddenFieldFilter(aservletContext);
     }
+
 
     private void registerHiddenFieldFilter(ServletContext aContext) {
         aContext.addFilter("hiddenHttpMethodFilter",

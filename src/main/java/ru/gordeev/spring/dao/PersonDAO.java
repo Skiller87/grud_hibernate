@@ -1,10 +1,12 @@
 package ru.gordeev.spring.dao;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import ru.gordeev.spring.models.Person;
 
 import java.sql.*;
@@ -14,43 +16,51 @@ import java.util.List;
 @Component
 public class PersonDAO {
 
+    private final SessionFactory session;
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PersonDAO(JdbcTemplate jdbcTemplate) {
+    public PersonDAO(SessionFactory session, JdbcTemplate jdbcTemplate) {
+        this.session = session;
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private static int PEOPLE_COUNT;
-
+    @Transactional(readOnly = true)
     public List<Person> index() {
 
-        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class)); //BeanPropertyRowMapper заменяет стандартный маппер когда название параметров класса совпадают с названиями колонок
+       return  session.getCurrentSession().createQuery("select t from Person t", Person.class).getResultList();
+
     }
 
+/*    public List<Person> index() {
+
+        return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class)); //BeanPropertyRowMapper заменяет стандартный маппер когда название параметров класса совпадают с названиями колонок
+    }*/
+
     public Person show(int id) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE id =?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
-                .stream().findAny().orElse(null);
+/*        return jdbcTemplate.query("SELECT * FROM Person WHERE id =?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
+                .stream().findAny().orElse(null);*/
+        return null;
     }
 
     public void save(Person person) {
-        jdbcTemplate.update("INSERT INTO Person(name,age,email) VALUES (?,?,?)",person.getName(), person.getAge(), person.getEmail());
-    }
+ /*       jdbcTemplate.update("INSERT INTO Person(name,age,email) VALUES (?,?,?)",person.getName(), person.getAge(), person.getEmail());
+    */}
 
     public void update(int id, Person updatePerson) {
-        jdbcTemplate.update("UPDATE Person SET name = ?,age = ?,email = ? WHERE id = ?", updatePerson.getName(), updatePerson.getAge(), updatePerson.getEmail(), id);
-
+ /*       jdbcTemplate.update("UPDATE Person SET name = ?,age = ?,email = ? WHERE id = ?", updatePerson.getName(), updatePerson.getAge(), updatePerson.getEmail(), id);
+*/
     }
 
     public void delete(int id) {
-        jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
-    }
+/*        jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
+    */}
 
     public void deleteAll() {
-        jdbcTemplate.update("DELETE FROM Person");
-    }
+  /*      jdbcTemplate.update("DELETE FROM Person");
+   */ }
 
-    //////////////////////////////////////////////
+/*    //////////////////////////////////////////////
     //Тестим производительность пакетной вставки//
     //////////////////////////////////////////////
     public void testMultipleUpdate() {
@@ -94,6 +104,6 @@ public class PersonDAO {
             people.add(new Person(i,"person" + i, 30, "email" +i+ "@mail.ru"));
         }
         return people;
-    }
+    }*/
 
 }
