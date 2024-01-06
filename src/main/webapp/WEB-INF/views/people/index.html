@@ -9,7 +9,7 @@
     <input type="submit" value="Delete All"/>
 </form>
 <div th:each="person : ${people}">
-    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getAge()}">user</a>
+    <a th:href="@{/people/{id}(id=${person.getId()})}" th:text="${person.getName() + ', ' + person.getAge() + ', ' + person.getEmail()}">user</a>
 </div>
 <br/>
 <hr/>

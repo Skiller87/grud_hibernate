@@ -28,11 +28,12 @@ public class Person {
     @Column(name ="age")
     private int age;
 
-    //@NotEmpty(message = "Email should not be empty")
-    //@Email(message = "Email should be valid")
-/*    private String email;
+    @NotEmpty(message = "Email should not be empty")
+    @Email(message = "Email should be valid")
+    @Column(name = "email")
+    private String email;
 
-    private String surname;*/
+    //private String surname;
 
     public int getAge() {
         return age;
@@ -54,13 +55,15 @@ public class Person {
         this.surname = surname;
     }
 
+ */
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }*/
+    }
 
 
     public Person(String name, int age) {

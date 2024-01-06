@@ -27,9 +27,8 @@ public class PersonDAO {
 
     @Transactional(readOnly = true)
     public List<Person> index() {
-
-       return  session.getCurrentSession().createQuery("select t from Person t", Person.class).getResultList();
-
+        List<Person> people = session.getCurrentSession().createQuery("select t from Person t", Person.class).getResultList();
+        return people;
     }
 
 /*    public List<Person> index() {
@@ -37,25 +36,42 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM Person", new BeanPropertyRowMapper<>(Person.class)); //BeanPropertyRowMapper заменяет стандартный маппер когда название параметров класса совпадают с названиями колонок
     }*/
 
+    @Transactional(readOnly = true)
     public Person show(int id) {
 /*        return jdbcTemplate.query("SELECT * FROM Person WHERE id =?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class))
                 .stream().findAny().orElse(null);*/
-        return null;
+        return  session.getCurrentSession().get(Person.class, id);
     }
 
+    @Transactional
     public void save(Person person) {
+          Person newPerson = person;
+/*        List<Person> people = new ArrayList<Person>(session.getCurrentSession().createQuery("select t from Person t", Person.class).getResultList());
+          people.add(person);*/
+          session.getCurrentSession().save(newPerson);
  /*       jdbcTemplate.update("INSERT INTO Person(name,age,email) VALUES (?,?,?)",person.getName(), person.getAge(), person.getEmail());
     */}
 
+    @Transactional
     public void update(int id, Person updatePerson) {
- /*       jdbcTemplate.update("UPDATE Person SET name = ?,age = ?,email = ? WHERE id = ?", updatePerson.getName(), updatePerson.getAge(), updatePerson.getEmail(), id);
+        session.getCurrentSession().update(updatePerson);
+/*
+        Person person = session.getCurrentSession().get(Person.class,updatePerson.getId());
+        System.out.println(person);
+        person.setAge(updatePerson.getAge());
+        person.setName(updatePerson.getName());
 */
+
     }
 
+    @Transactional
     public void delete(int id) {
+        session.getCurrentSession().remove(session.getCurrentSession().get(Person.class,id));
+        //session.getCurrentSession().delete(person);
 /*        jdbcTemplate.update("DELETE FROM Person WHERE id = ?", id);
     */}
 
+    @Transactional
     public void deleteAll() {
   /*      jdbcTemplate.update("DELETE FROM Person");
    */ }
